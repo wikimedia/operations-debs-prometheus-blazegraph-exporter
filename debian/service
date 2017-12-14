@@ -1,0 +1,10 @@
+[Unit]
+Description=Prometheus Blazegraph Exporter
+
+[Service]
+Restart=always
+User=prometheus
+ExecStart=/usr/bin/prometheus-blazegraph-exporter
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,5 @@
+prometheus-blazegraph-exporter (0.1) jessie-wikimedia; urgency=medium
+
+  * Initial release
+
+ -- Moritz Muehlenhoff <moritz@wikimedia.org>  Tue, 14 Dec 2017 16:38:29 +0000
