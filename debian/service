@@ -1,5 +1,7 @@
 [Unit]
 Description=Prometheus Blazegraph Exporter
+Requires=blazegraph.service
+After=blazegraph.service
 
 [Service]
 Restart=always
