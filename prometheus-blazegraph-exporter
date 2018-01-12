@@ -27,6 +27,7 @@ import yaml
 
 from datetime import timedelta, tzinfo
 from dateutil.parser import parse
+from urllib2 import URLError
 from xml.etree import ElementTree
 
 from prometheus_client import start_http_server, Summary
@@ -52,9 +53,13 @@ class PrometheusBlazeGraphExporter(object):
         url = self.url + "counters?depth=10&" + \
             urllib.urlencode({'path': cnt_name})
 
-        req = urllib2.Request(url)
-        req.add_header('Accept', 'application/xml')
-        response = urllib2.urlopen(req)
+        try:
+            req = urllib2.Request(url)
+            req.add_header('Accept', 'application/xml')
+            response = urllib2.urlopen(req)
+        except URLError:
+            return None
+
         el = ElementTree.fromstring(response.read())
         last_name = cnt_name.split('/')[-1]
 
@@ -102,33 +107,37 @@ class PrometheusBlazeGraphExporter(object):
 
                 try:
                     value = float(metric_value)
-                except ValueError:
+                except (ValueError, TypeError):
                     value = float('nan')
 
                 metric_family.add_metric([], value)
 
-        sparql_query = """ prefix schema: <http://schema.org/>
-                    SELECT * WHERE { {
-                      SELECT ( COUNT( * ) AS ?count ) { ?s ?p ?o }
-                    } UNION {
-                      SELECT * WHERE { <http://www.wikidata.org> schema:dateModified ?y }
-                    } }"""
-        data = self.execute_sparql(sparql_query)
-
         triple_metric = CounterMetricFamily('blazegraph_triples', '')
         lag_metric = CounterMetricFamily('blazegraph_lastupdated', '')
+        try:
+            sparql_query = """ prefix schema: <http://schema.org/>
+                        SELECT * WHERE { {
+                          SELECT ( COUNT( * ) AS ?count ) { ?s ?p ?o }
+                        } UNION {
+                          SELECT * WHERE { <http://www.wikidata.org> schema:dateModified ?y }
+                        } }"""
 
-        for binding in data['results']['bindings']:
-            if 'count' in binding:
-                triple_count = binding['count']['value']
-                triple_metric.add_metric([], float(triple_count))
+            data = self.execute_sparql(sparql_query)
 
-            elif 'y' in binding:
-                lastUpdated = parse(binding['y']['value'])
-                lag_metric.add_metric([], float(lastUpdated.strftime('%s')))
-            else:
-                raise ValueError('SPARQL binding returned with unexpected key')
+            for binding in data['results']['bindings']:
+                if 'count' in binding:
+                    triple_count = binding['count']['value']
+                    triple_metric.add_metric([], float(triple_count))
 
+                elif 'y' in binding:
+                    lastUpdated = parse(binding['y']['value'])
+                    lag_metric.add_metric([], float(lastUpdated.strftime('%s')))
+                else:
+                    raise ValueError('SPARQL binding returned with unexpected key')
+
+        except URLError:
+            triple_metric.add_metric([], float('nan'))
+            lag_metric.add_metric([], float('nan'))
         yield triple_metric
         yield lag_metric
 
