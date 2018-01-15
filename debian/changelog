@@ -1,3 +1,9 @@
+prometheus-blazegraph-exporter (0.4) jessie-wikimedia; urgency=medium
+
+  * Don't start after blazegraph
+
+ -- Filippo Giunchedi <filippo@debian.org>  Mon, 15 Jan 2018 17:25:45 +0100
+
 prometheus-blazegraph-exporter (0.3) jessie-wikimedia; urgency=medium
 
   * start after blazegraph
