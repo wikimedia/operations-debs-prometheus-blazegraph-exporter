@@ -76,7 +76,7 @@ class PrometheusBlazeGraphExporter(object):
 
     @scrape_duration.time()
     def collect(self):
-        jolokia_metrics = {
+        blazegraph_metrics = {
             '/Query Engine/queryStartCount': CounterMetricFamily('blazegraph_queries_start', 'Number of queries that have started since the start of the application.'),
             '/Query Engine/queryDoneCount': CounterMetricFamily('blazegraph_queries_done', 'Number of queries completed since the start of the application.'),
             '/Query Engine/queryErrorCount': CounterMetricFamily('blazegraph_queries_error', 'Number of queries in error since the start of the application.'),
@@ -98,12 +98,11 @@ class PrometheusBlazeGraphExporter(object):
             '/JVM/Memory/Garbage Collectors/G1 Young Generation/Cumulative Collection Time': GaugeMetricFamily('blazegraph_jvm_memory_gc_g1_young_cumulative_collection_time', 'Total time spent in young GC (seconds).'),
         }
 
-        for metric_name in jolokia_metrics:
+        for metric_name, metric_family in blazegraph_metrics.iteritems():
             if metric_name is None:
                 log.warn('Unknown metric %r', metric_name)
             else:
                 metric_value = self.get_counter(metric_name)
-                metric_family = jolokia_metrics.get(metric_name)
 
                 try:
                     value = float(metric_value)
@@ -141,7 +140,7 @@ class PrometheusBlazeGraphExporter(object):
         yield triple_metric
         yield lag_metric
 
-        for metric in jolokia_metrics.values():
+        for metric in blazegraph_metrics.values():
             yield metric
 
 
