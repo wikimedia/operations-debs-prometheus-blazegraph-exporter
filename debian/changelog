@@ -1,3 +1,9 @@
+prometheus-blazegraph-exporter (0.5) jessie-wikimedia; urgency=medium
+
+  * Metrics are exposed by Blazegraph directly (code cleanup)
+
+ -- Guillaume Lederrey <guillaume.lederrey@wikimedia.org>  Thu, 01 Feb 2018 10:54:10 +0100
+
 prometheus-blazegraph-exporter (0.4) jessie-wikimedia; urgency=medium
 
   * Don't start after blazegraph
