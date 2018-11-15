@@ -82,6 +82,7 @@ class PrometheusBlazeGraphExporter(object):
             '/Query Engine/queryErrorCount': CounterMetricFamily('blazegraph_queries_error', 'Number of queries in error since the start of the application.'),
             '/Query Engine/queriesPerSecond': GaugeMetricFamily('blazegraph_queries_per_second', 'Number of queries per second (rolling average).'),
             '/Query Engine/operatorActiveCount': GaugeMetricFamily('blazegraph_operator_active_count', 'Number of active blazegraph operators'),
+            '/Query Engine/runningQueriesCount': GaugeMetricFamily('blazegraph_running_queries_count', 'Number of running queries'),
             '/Query Engine/GeoSpatial/geoSpatialSearchRequests': GaugeMetricFamily('blazegraph_geospatial_search_requets', 'Number of geospatial search requests since the start of the application.'),
             '/Journal/bytesReadPerSec': GaugeMetricFamily('blazegraph_journal_bytes_read_per_second', ''),
             '/Journal/bytesWrittenPerSec': GaugeMetricFamily('blazegraph_journal_bytes_written_per_second', ''),
