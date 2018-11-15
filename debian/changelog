@@ -1,4 +1,4 @@
-prometheus-blazegraph-exporter (0.6) stretch-wikimedia; urgency=medium
+prometheus-blazegraph-exporter (0.7) stretch-wikimedia; urgency=medium
 
   * Added '/Query Engine/runningQueriesCount' metric
 
