@@ -1,3 +1,9 @@
+prometheus-blazegraph-exporter (0.8) stretch-wikimedia; urgency=medium
+
+  * Make blazegraph port configurable
+
+ -- Guillaume Lederrey <guillaume.lederrey@wikimedia.org>  Wed, 09 Jan 2019 16:11:51 +0100
+
 prometheus-blazegraph-exporter (0.7) stretch-wikimedia; urgency=medium
 
   * Added '/Query Engine/runningQueriesCount' metric
