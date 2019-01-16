@@ -1,0 +1,7 @@
+For simplicity, this script is now managed directly in puppet.
+
+See: https://phabricator.wikimedia.org/source/operations-puppet/browse/production/modules/wdqs/files/monitor/prometheus-blazegraph-exporter.py
+For simplicity, this script is now managed directly in puppet.
+
+See: https://phabricator.wikimedia.org/source/operations-puppet/browse/production/modules/wdqs/files/monitor/prometheus-blazegraph-exporter.py
+
